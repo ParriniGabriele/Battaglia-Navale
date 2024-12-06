@@ -1,0 +1,65 @@
+package Package;
+import javax.swing.*;
+import java.awt.Color;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class Tabellone {
+	
+	    private static final int GRID_SIZE = 11; // Dimensione del tabellone (es. 10x10)
+	    private JButton[][] buttons; // Matrice di bottoni
+
+	    public Tabellone() {
+	    	JTextArea textArea = new JTextArea("ECCO LE IMPOSTAZIONI DI GIOCO");
+	    	JButton bottone = new JButton();
+	        // Creazione della finestra principale
+	        JFrame frame = new JFrame("Tabellone di Gioco");
+	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	        frame.setSize(600, 600);
+
+	        // Creazione del pannello con griglia
+	        JPanel gridPanel = new JPanel();
+	        gridPanel.setLayout(new GridLayout(GRID_SIZE, GRID_SIZE)); // Griglia NxN
+
+	        // Inizializzazione della matrice di bottoni
+	        buttons = new JButton[GRID_SIZE][GRID_SIZE];
+	        for (int row = 0; row < GRID_SIZE; row++) {
+	            for (int col = 0; col < GRID_SIZE; col++) {
+	                // Creazione di un bottone
+	                JButton button = new JButton();
+	                button.setBackground(Color.CYAN); // Colore di sfondo
+
+	                button.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // Bordo del bottone
+
+	                // Aggiunta di un'azione al bottone
+	                int currentRow = row; // Variabile finale per l'uso nella lambda
+	                int currentCol = col;
+	                button.addActionListener(e -> handleButtonClick(currentRow, currentCol));
+
+	                // Aggiunta del bottone alla matrice e al pannello
+	                buttons[row][col] = button;
+	                gridPanel.add(button);
+	            }
+	        }
+
+	        // Aggiunta del pannello al frame
+	        frame.add(gridPanel,BorderLayout.CENTER);
+	        
+	        
+	        frame.setLocationRelativeTo(null);
+	        frame.setVisible(true);
+	    }
+
+	    // Metodo chiamato quando un bottone viene cliccato
+	    private void handleButtonClick(int row, int col) {
+	        JButton button = buttons[row][col];
+	        button.setBackground(Color.RED); // Cambia colore per indicare un'azione (es. "Colpito")
+	        button.setEnabled(false); // Disabilita il bottone dopo il clic
+	        System.out.println("Cliccato sulla cella: (" + row + ", " + col + ")");
+	    }
+
+	    public static void main(String[] args) {
+	        SwingUtilities.invokeLater(Tabellone::new);
+	    }
+	}
